@@ -3,9 +3,10 @@
   "version": "1.0.0",
   "description": "Backend API for SmartQueue appointment and queue management.",
   "type": "module",
-  "main": "src/server.ts",
+  "main": "dist/server.js",
   "scripts": {
-    "start": "tsx src/server.ts",
+    "start": "node dist/server.js",
+    "build": "tsc -p tsconfig.build.json",
     "dev": "nodemon --watch src --ext ts,json --exec tsx src/server.ts",
     "seed": "tsx src/scripts/seed.ts",
     "migrate": "tsx src/scripts/migrate.ts",
