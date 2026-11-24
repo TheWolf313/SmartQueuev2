@@ -23,6 +23,7 @@ export default function BookAppointmentPage() {
   const [services, setServices] = useState<Service[]>([]);
   const [slots, setSlots] = useState<Slot[]>([]);
   const [serviceId, setServiceId] = useState("");
+  const [servicesLoading, setServicesLoading] = useState(true);
   const [date, setDate] = useState(new Date().toISOString().slice(0, 10));
   const [preferredTime, setPreferredTime] = useState("");
   const [slotTime, setSlotTime] = useState("");
@@ -36,7 +37,8 @@ export default function BookAppointmentPage() {
         setServices(data);
         setServiceId(data[0]?._id || "");
       })
-      .catch((err) => setError(err instanceof Error ? err.message : "Failed to load services"));
+      .catch((err) => setError(err instanceof Error ? err.message : "Failed to load services"))
+      .finally(() => setServicesLoading(false));
   }, []);
 
   useEffect(() => {
@@ -85,9 +87,21 @@ export default function BookAppointmentPage() {
             <select
               className="rounded-md border px-3 py-2"
               value={serviceId}
-              onChange={(event) => setServiceId(event.target.value)}
+              onChange={(event) => {
+                setServiceId(event.target.value);
+                setSlotTime("");
+                setSlots([]);
+              }}
+              disabled={servicesLoading || services.length === 0}
               required
             >
+              <option value="" disabled>
+                {servicesLoading
+                  ? "Loading consultation types…"
+                  : services.length > 0
+                    ? "Select a consultation type"
+                    : "No consultation types available"}
+              </option>
               {services.map((service) => (
                 <option key={service._id} value={service._id}>
                   {service.name} ({service.durationMinutes} min)
@@ -138,7 +152,7 @@ export default function BookAppointmentPage() {
           </label>
           <StatusMessage error={error} />
           <button
-            disabled={!slotTime || loading}
+            disabled={!serviceId || !slotTime || loading}
             className="rounded-md bg-emerald-700 px-4 py-2 text-white disabled:bg-slate-400"
           >
             {loading ? "Booking…" : "Confirm Booking"}

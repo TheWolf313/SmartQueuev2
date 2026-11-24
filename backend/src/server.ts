@@ -4,6 +4,7 @@ import helmet from "helmet";
 import morgan from "morgan";
 import connectDB from "./config/db.js";
 import { env, validateEnv } from "./config/env.js";
+import { ensureDefaultServices } from "./services/defaultServices.js";
 import customerAuthRoutes from "./routes/customerAuthRoutes.js";
 import adminAuthRoutes from "./routes/adminAuthRoutes.js";
 import customerAppointmentRoutes from "./routes/customerAppointmentRoutes.js";
@@ -25,6 +26,7 @@ const app = express();
 const port = env.port;
 
 await connectDB();
+await ensureDefaultServices();
 
 app.use(helmet());
 app.use(

@@ -42,7 +42,11 @@ export default function BookingConfirmation({ appointment, onClose }: BookingCon
             alt="Check-in QR code"
             className="mx-auto mt-4 h-40 w-40 rounded-md border p-2"
           />
-        ) : null}
+        ) : (
+          <p role="alert" className="mt-4 rounded-md bg-red-50 p-3 text-sm text-red-700">
+            The appointment was saved, but its QR code could not be generated. Please contact staff.
+          </p>
+        )}
         <p className="mt-3 text-center text-xs text-slate-500">
           A confirmation email has been sent (if email is configured).
         </p>

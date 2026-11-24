@@ -17,7 +17,7 @@ services:
       - key: MONGO_URI
         sync: false
       - key: CLIENT_URL
-        sync: false
+        value: https://smart-queuev2.vercel.app
       - key: ADMIN_EMAIL
         sync: false
       - key: ADMIN_PASSWORD
